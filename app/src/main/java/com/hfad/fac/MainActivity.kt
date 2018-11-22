@@ -32,7 +32,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MainActivity : AppCompatActivity() {
 
 
-    var webView: WebView? = null
+    lateinit var webView: WebView
     var clientId = "34f18331adf3a2ecc7b3"
     var clientSecret = "9299ce3bfd5e19e1b894871d0680ba38a94a0483"
     var redirectUri = "fac://callback"
@@ -41,17 +41,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        webView = findViewById<WebView>(R.id.webView) as WebView
-        webView!!.settings.javaScriptEnabled = true
-        webView!!.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                OAuth()
+        webView = find(R.id.webView)
+        webView.settings.javaScriptEnabled = true
+        webView.loadUrl("https://github.com/login/oauth/authorize?client_id=$clientId&scope=repo&redirect_uri=$redirectUri")
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView?, url: String): Boolean {
+                OAuth(url)
                 return true
             }
 
             @RequiresApi(Build.VERSION_CODES.N)
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-                OAuth()
+            override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
+                var urla: String = request.url.toString()
+                OAuth(urla)
                 return true
             }
 
@@ -91,13 +93,10 @@ class MainActivity : AppCompatActivity() {
 
     }*/
     }
-    fun OAuth() {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/login/oauth/authorize?client_id=$clientId&scope=repo&redirect_uri=$redirectUri"))
-        startActivity(intent)
-        var uri = getIntent().getData()
+    fun OAuth(url:String) {
 
-        if (uri != null && uri.toString().startsWith(redirectUri)) {
-            var code = uri.getQueryParameter("code")
+        if (url.startsWith(redirectUri)) {
+            var code = url.split("code=")[1]
 
 
             var builder = Retrofit.Builder().baseUrl("https://github.com/").addConverterFactory(GsonConverterFactory.create())
