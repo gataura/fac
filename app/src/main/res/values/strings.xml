@@ -3,4 +3,6 @@
     <string name="email_hint">Username</string>
     <string name="pass_hint">Password</string>
     <string name="logo_github">Logo</string>
+    <string name="title_activity_the_mainest">TheMainestActivity</string>
+    <string name="horosh">Horosh</string>
 </resources>
