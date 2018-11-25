@@ -13,12 +13,7 @@ class MainScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_screen)
 
-
-        if (myUrl == null) {
-            finish()
-        } else {
-
-        }
+        
     }
 
     companion object {
