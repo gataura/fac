@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity(), GithubView {
     override fun onLoad(response: AccessToken?) {
         response?.let {
             presenter.saveToken(this@MainActivity, response.getAccessToken())
-            MainScreenActivity.start(this@MainActivity, it.getAccessToken())
+            MainScreenActivity.start(this@MainActivity)
         }
     }
 
@@ -97,6 +97,7 @@ object Constants {
     var clientSecret = "9299ce3bfd5e19e1b894871d0680ba38a94a0483"
     var redirectUri = "fac://callback"
     var githubClientUrl = "https://github.com/"
+    var githubApiUrl = "https://api.github.com"
     var authLink = "https://github.com/login/oauth/authorize?client_id=${Constants.clientId}&scope=repo&redirect_uri=${Constants.redirectUri}"
 }
 
@@ -151,7 +152,7 @@ class GithubPresenter: BasePresenter<GithubView>(), IGithubPresenter {
                     if(response?.body() != null) {
                         view?.onLoad(response.body())
                     } else {
-                        view?.onError(Throwable("ты пидор"))
+                        view?.onError(Throwable("не то чет"))
                     }
                 }
                 override fun onFailure(call: Call<AccessToken>?, t: Throwable?) {
@@ -184,7 +185,7 @@ class myPrefs(val context: Context) {
 
     private var prefs = PreferenceManager.getDefaultSharedPreferences(context)
 
-    private var editor: SharedPreferences.Editor? = null
+    private var editor: SharedPreferences.Editor? = prefs.edit()
         @SuppressLint("CommitPrefEdits")
         get() = prefs.edit()
 
@@ -192,7 +193,9 @@ class myPrefs(val context: Context) {
         TOKEN
     }
 
-    fun setToken(token: String) = editor?.putString(KEYS.TOKEN.name, token)?.apply()
+    fun setToken(token: String) {
+        editor?.putString(KEYS.TOKEN.name, token)?.apply()
+    }
     fun getToken() = prefs.getString(KEYS.TOKEN.name, "")
 }
 

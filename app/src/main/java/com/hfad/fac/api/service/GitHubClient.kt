@@ -16,6 +16,6 @@ public interface GitHubClient {
             @Field("code") code:String
     ): Call<AccessToken>
 
-    @GET("/users/{user}/repos")
-    fun reposForUsers(@Path("user") user:String): Call<List<GitHubRepo>>
+    @GET("/users/repos?&access_token={access_token}")
+    fun reposForToken(@Path("access_token") access_token:String): Call<List<GitHubRepo>>
 }

@@ -5,4 +5,12 @@
     <string name="logo_github">Logo</string>
     <string name="title_activity_the_mainest">TheMainestActivity</string>
     <string name="horosh">Horosh</string>
+    <string name="label">post</string>
+    <string name="title_activity_main_page">MainPageActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
